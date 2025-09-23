@@ -44,12 +44,17 @@ export function getYouTubeThumbnail(url: string): string {
   return "/images/genetic-image.png";
 }
 
-export function scrollToElement(elementId: string): void {
-  const element = document.getElementById(elementId);
+export function scrollToElement(id: string) {
+  const element = document.getElementById(id);
+  const headerOffset = 80;
   if (element) {
-    element.scrollIntoView({
+    const elementPosition =
+      element.getBoundingClientRect().top + window.pageYOffset;
+    const offsetPosition = elementPosition - headerOffset;
+
+    window.scrollTo({
+      top: offsetPosition,
       behavior: "smooth",
-      block: "start",
     });
   }
 }

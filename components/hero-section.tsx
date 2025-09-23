@@ -1,14 +1,13 @@
-
 "use client";
 
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Star, Award, Users, Clock } from 'lucide-react';
-import { professionalData } from '@/lib/professional-data';
-import { contactData } from '@/lib/contact-data';
-import { scrollToElement } from '@/lib/utils';
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Star, Award, Users, Clock } from "lucide-react";
+import { professionalData } from "@/lib/professional-data";
+import { contactData } from "@/lib/contact-data";
+import { scrollToElement } from "@/lib/utils";
 
 export default function HeroSection() {
   const [mounted, setMounted] = useState(false);
@@ -18,11 +17,11 @@ export default function HeroSection() {
   }, []);
 
   const handleContactClick = () => {
-    scrollToElement('contact');
+    scrollToElement("contact");
   };
 
   const handleAboutClick = () => {
-    scrollToElement('about');
+    scrollToElement("about");
   };
 
   if (!mounted) {
@@ -30,8 +29,8 @@ export default function HeroSection() {
   }
 
   return (
-    <section 
-      id="hero" 
+    <section
+      id="hero"
       className="min-h-screen bg-gradient-to-br from-navy via-navy to-teal relative overflow-hidden"
       role="banner"
     >
@@ -39,23 +38,21 @@ export default function HeroSection() {
       <div className="absolute inset-0 bg-[url('/images/pattern.svg')] opacity-5" />
       <div className="absolute top-20 right-10 w-72 h-72 bg-teal/20 rounded-full blur-3xl" />
       <div className="absolute bottom-20 left-10 w-96 h-96 bg-gold/10 rounded-full blur-3xl" />
-      
+
       <div className="container-custom relative z-10">
         <div className="flex items-center min-h-screen pt-20 lg:pt-0">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center w-full">
-            
             {/* Text Content */}
             <div className="order-2 lg:order-1 text-center lg:text-left">
               <div className="space-y-6 animate-fade-in-up">
-                
                 {/* Badge */}
-                <Badge 
-                  variant="secondary" 
-                  className="bg-gold/20 text-gold border-gold/30 text-sm px-4 py-2 font-medium inline-flex items-center gap-2"
+                {/* <Badge
+                  variant="secondary"
+                  className="bg-gold/20 text-gold border-gold/30 text-sm px-2 py-2 font-medium inline-flex items-center gap-3"
                 >
                   <Award className="w-4 h-4" />
                   Master Trainer Febracis
-                </Badge>
+                </Badge> */}
 
                 {/* Main Heading */}
                 <div>
@@ -99,8 +96,8 @@ export default function HeroSection() {
                 </div>
 
                 {/* CTA Buttons */}
-                <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                  <Button 
+                <div className="flex flex-col sm:flex-row gap-4 pt-4 pb-8 sm:pb-0">
+                  <Button
                     onClick={handleContactClick}
                     size="lg"
                     className="bg-gold hover:bg-gold/90 text-navy font-semibold px-8 py-4 text-lg transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-navy"
@@ -108,11 +105,11 @@ export default function HeroSection() {
                   >
                     {contactData.ctaText}
                   </Button>
-                  <Button 
+                  <Button
                     onClick={handleAboutClick}
                     variant="outline"
                     size="lg"
-                    className="border-white text-white hover:bg-white hover:text-navy font-semibold px-8 py-4 text-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-navy"
+                    className="bg-white hover:bg-white/90 text-navy font-semibold px-8 py-4 text-lg transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-navy"
                     aria-label="Conhecer mais sobre o trabalho - ir para seção sobre"
                   >
                     Conheça Meu Trabalho
@@ -127,7 +124,7 @@ export default function HeroSection() {
                 <div className="relative w-80 h-80 md:w-96 md:h-96 lg:w-[450px] lg:h-[450px]">
                   {/* Decorative background */}
                   <div className="absolute inset-0 bg-gradient-to-br from-teal/30 to-gold/20 rounded-full blur-xl scale-110" />
-                  
+
                   {/* Main image container */}
                   <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-white/20 shadow-2xl">
                     <Image
@@ -144,13 +141,12 @@ export default function HeroSection() {
                   <div className="absolute -top-6 -right-6 bg-gold text-navy px-4 py-2 rounded-full font-semibold text-sm shadow-lg animate-bounce [animation-delay:1s]">
                     Master Coach
                   </div>
-                  <div className="absolute -bottom-4 -left-4 bg-teal text-white px-4 py-2 rounded-full font-semibold text-sm shadow-lg animate-bounce [animation-delay:2s]">
+                  {/* <div className="absolute -bottom-4 -left-4 bg-teal text-white px-4 py-2 rounded-full font-semibold text-sm shadow-lg animate-bounce [animation-delay:2s]">
                     Febracis
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
-
           </div>
         </div>
 
