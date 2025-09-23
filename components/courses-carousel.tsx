@@ -135,7 +135,7 @@ export default function CoursesCarousel() {
         {/* Carousel Container */}
         <div
           ref={carouselRef}
-          className="relative carousel-container"
+          className="relative carousel-container overflow-hidden max-w-full"
           tabIndex={0}
           role="region"
           aria-label="Carrossel de cursos"
@@ -172,26 +172,21 @@ export default function CoursesCarousel() {
 
           {/* Carousel Track */}
           <div
-            className="carousel-track"
+            className="carousel-track flex transition-transform duration-500"
             style={{
               transform: `translateX(${translateX}%)`,
-              width: `${(coursesData.length / cardsPerView) * 100}%`,
             }}
             aria-live="polite"
           >
             {coursesData.map((course, index) => (
               <div
                 key={index}
-                className={`px-3 transition-all duration-500 ${
-                  cardsPerView === 1
-                    ? "w-full"
-                    : cardsPerView === 2
-                    ? "w-1/2"
-                    : "w-1/3"
-                }`}
-                style={{ flexShrink: 0 }}
+                className="px-3 transition-all duration-500"
+                style={{
+                  flex: `0 0 ${100 / cardsPerView}%`,
+                }}
               >
-                <Card className="h-full card-hover border-0 shadow-lg">
+                <Card className="h-full w-full card-hover border-0 shadow-lg">
                   <a
                     href={course.link}
                     target="_blank"
@@ -246,36 +241,6 @@ export default function CoursesCarousel() {
               </div>
             ))}
           </div>
-        </div>
-
-        {/* Indicators */}
-        <div className="flex justify-center mt-8 space-x-2">
-          {Array.from({ length: maxIndex + 1 }).map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentIndex(index)}
-              className={`w-3 h-3 rounded-full transition-colors duration-200 ${
-                index === currentIndex
-                  ? "bg-teal"
-                  : "bg-gray-300 hover:bg-gray-400"
-              }`}
-              aria-label={`Ir para slide ${index + 1}`}
-            />
-          ))}
-        </div>
-
-        {/* Call to Action */}
-        <div className="text-center mt-12">
-          <p className="text-lg text-gray-700 mb-6">
-            Interessado em algum dos nossos programas?
-          </p>
-          <Button
-            asChild
-            size="lg"
-            className="bg-navy hover:bg-navy/90 text-white font-semibold px-8 py-4"
-          >
-            <a href="#contact">Entre em Contato</a>
-          </Button>
         </div>
       </div>
     </section>
