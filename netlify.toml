@@ -4,3 +4,7 @@
 
 [build.environment]
   NODE_VERSION = "18"
+  PRISMA_CLI_QUERY_ENGINE_TYPE = "binary"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
