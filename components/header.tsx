@@ -1,14 +1,12 @@
-
 "use client";
 
-import { useState, useEffect } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { Menu, X, Phone, Mail } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { professionalData } from '@/lib/professional-data';
-import { contactData } from '@/lib/contact-data';
-import { scrollToElement } from '@/lib/utils';
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import { Menu, X, Phone, Mail } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { professionalData } from "@/lib/professional-data";
+import { contactData } from "@/lib/contact-data";
+import { scrollToElement } from "@/lib/utils";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -19,8 +17,8 @@ export default function Header() {
       setIsScrolled(window.scrollY > 10);
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const handleNavClick = (elementId: string) => {
@@ -29,30 +27,28 @@ export default function Header() {
   };
 
   const navItems = [
-    { label: 'Início', id: 'hero' },
-    { label: 'Sobre', id: 'about' },
-    { label: 'Currículo', id: 'curriculum' },
-    { label: 'Cursos', id: 'courses' },
-    { label: 'Depoimentos', id: 'testimonials' },
-    { label: 'Vídeos', id: 'youtube' },
-    { label: 'Contato', id: 'contact' },
+    { label: "Início", id: "hero" },
+    { label: "Sobre", id: "about" },
+    { label: "Currículo", id: "curriculum" },
+    { label: "Cursos", id: "courses" },
+    { label: "Depoimentos", id: "testimonials" },
+    { label: "Vídeos", id: "youtube" },
+    { label: "Contato", id: "contact" },
   ];
 
   return (
-    <header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-white/95 backdrop-blur-md shadow-lg' 
-          : 'bg-transparent'
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 h-16 md:h-20 ${
+        isScrolled ? "bg-white/95 backdrop-blur-md shadow-lg" : "bg-transparent"
       }`}
       role="banner"
     >
-      <div className="container-custom">
-        <div className="flex items-center justify-between py-4">
+      <div className="container-custom h-full">
+        <div className="flex items-center justify-between h-full">
           {/* Logo and Brand */}
           <div className="flex items-center space-x-3">
             {professionalData.logo && (
-              <div className="relative w-10 h-10 md:w-12 md:h-12">
+              <div className="relative w-8 h-8 md:w-12 md:h-12">
                 <Image
                   src={professionalData.logo}
                   alt={`${professionalData.name} Logo`}
@@ -63,27 +59,35 @@ export default function Header() {
               </div>
             )}
             <div>
-              <h1 className={`text-xl md:text-2xl font-bold ${
-                isScrolled ? 'text-navy' : 'text-white'
-              }`}>
+              <h1
+                className={`text-lg md:text-2xl font-bold ${
+                  isScrolled ? "text-navy" : "text-white"
+                }`}
+              >
                 {professionalData.name}
               </h1>
-              <p className={`text-sm ${
-                isScrolled ? 'text-teal' : 'text-teal'
-              }`}>
+              <p
+                className={`text-xs md:text-sm ${
+                  isScrolled ? "text-teal" : "text-teal"
+                }`}
+              >
                 {professionalData.title}
               </p>
             </div>
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-8" role="navigation" aria-label="Menu principal">
+          <nav
+            className="hidden lg:flex items-center space-x-8"
+            role="navigation"
+            aria-label="Menu principal"
+          >
             {navItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => handleNavClick(item.id)}
                 className={`transition-colors duration-200 hover:text-teal focus:outline-none focus:text-teal ${
-                  isScrolled ? 'text-gray-700' : 'text-white'
+                  isScrolled ? "text-gray-700" : "text-white"
                 }`}
                 aria-label={`Ir para seção ${item.label}`}
               >
@@ -95,7 +99,7 @@ export default function Header() {
           {/* CTA Button - Desktop */}
           <div className="hidden lg:block">
             <Button
-              onClick={() => handleNavClick('contact')}
+              onClick={() => handleNavClick("contact")}
               className="bg-gold hover:bg-gold/90 text-navy font-semibold px-6 py-2 transition-all duration-200"
             >
               {contactData.ctaText}
@@ -110,9 +114,13 @@ export default function Header() {
             aria-label="Abrir menu de navegação"
           >
             {isMenuOpen ? (
-              <X className={`w-6 h-6 ${isScrolled ? 'text-navy' : 'text-white'}`} />
+              <X
+                className={`w-6 h-6 ${isScrolled ? "text-navy" : "text-white"}`}
+              />
             ) : (
-              <Menu className={`w-6 h-6 ${isScrolled ? 'text-navy' : 'text-white'}`} />
+              <Menu
+                className={`w-6 h-6 ${isScrolled ? "text-navy" : "text-white"}`}
+              />
             )}
           </button>
         </div>
@@ -131,7 +139,7 @@ export default function Header() {
                   {item.label}
                 </button>
               ))}
-              
+
               {/* Mobile Contact Info */}
               <div className="px-6 py-4 border-t border-gray-200 space-y-2">
                 <div className="flex items-center space-x-2 text-sm text-gray-600">
@@ -147,7 +155,7 @@ export default function Header() {
               {/* Mobile CTA */}
               <div className="px-6 py-2">
                 <Button
-                  onClick={() => handleNavClick('contact')}
+                  onClick={() => handleNavClick("contact")}
                   className="w-full bg-gold hover:bg-gold/90 text-navy font-semibold"
                 >
                   {contactData.ctaText}
