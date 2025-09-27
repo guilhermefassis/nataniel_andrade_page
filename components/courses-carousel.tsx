@@ -180,7 +180,7 @@ export default function CoursesCarousel() {
           >
             {coursesData.map((course, index) => (
               <div
-                key={index}
+                key={index || 0}
                 className="px-3 transition-all duration-500"
                 style={{
                   flex: `0 0 ${100 / cardsPerView}%`,
@@ -188,17 +188,17 @@ export default function CoursesCarousel() {
               >
                 <Card className="h-full w-full card-hover border-0 shadow-lg">
                   <a
-                    href={course.link}
+                    href={course?.link}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="block h-full"
-                    aria-label={`Abrir página do curso ${course.name} em nova aba`}
+                    aria-label={`Abrir página do curso ${course?.name} em nova aba`}
                   >
                     <CardHeader className="pb-4">
                       <div className="relative w-full h-48 bg-gray-100 rounded-lg overflow-hidden mb-4">
                         <Image
-                          src={course.image || "/images/genetic-image.png"}
-                          alt={`Imagem do curso ${course.name}`}
+                          src={course?.image || "/images/genetic-image.png"}
+                          alt={`Imagem do curso ${course?.name}`}
                           fill
                           className="object-cover transition-transform duration-300 hover:scale-105"
                           sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -211,13 +211,13 @@ export default function CoursesCarousel() {
                         </div>
                       </div>
                       <CardTitle className="text-lg text-navy line-clamp-2 min-h-[3.5rem]">
-                        {course.name}
+                        {course?.name}
                       </CardTitle>
                     </CardHeader>
 
                     <CardContent className="pt-0 flex flex-col h-full">
                       <p className="text-gray-600 text-sm leading-relaxed mb-6 flex-grow line-clamp-4">
-                        {course.description}
+                        {course?.description}
                       </p>
                     </CardContent>
                   </a>
@@ -227,11 +227,11 @@ export default function CoursesCarousel() {
                     className="w-full bg-teal hover:bg-teal/90 text-white font-medium transition-colors duration-200"
                   >
                     <a
-                      href={course.link}
+                      href={course?.link}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center justify-center gap-2"
-                      aria-label={`Saiba mais sobre ${course.name} - abre em nova aba`}
+                      aria-label={`Saiba mais sobre ${course?.name} - abre em nova aba`}
                     >
                       Saiba Mais
                       <ExternalLink className="w-4 h-4" />

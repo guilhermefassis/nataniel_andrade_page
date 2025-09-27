@@ -176,7 +176,7 @@ export default function YouTubeCarousel() {
               const isMain = index === 0;
               return (
                 <Card
-                  key={video.title + index}
+                  key={video?.title + index}
                   className={`card-hover border-0 shadow-lg cursor-pointer ${
                     isMain ? "md:col-span-2 md:row-span-1" : ""
                   }`}
@@ -189,8 +189,8 @@ export default function YouTubeCarousel() {
                       } bg-black rounded-lg overflow-hidden group`}
                     >
                       <Image
-                        src={getYouTubeThumbnail(video.url)}
-                        alt={`Thumbnail do vídeo: ${video.title}`}
+                        src={getYouTubeThumbnail(video?.url)}
+                        alt={`Thumbnail do vídeo: ${video?.title}`}
                         fill
                         className="object-cover transition-transform duration-300 group-hover:scale-105"
                         sizes={
@@ -232,7 +232,7 @@ export default function YouTubeCarousel() {
                           isMain ? "text-lg md:text-xl" : "text-base"
                         }`}
                       >
-                        {video.title}
+                        {video?.title}
                       </h3>
                       <p className="text-gray-600 text-sm mt-2">
                         Nataniel Andrade
