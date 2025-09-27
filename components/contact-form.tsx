@@ -43,10 +43,7 @@ const contactSchema = z.object({
     .string()
     .min(1, "Assunto deve ter pelo menos 5 caracteres")
     .max(200, "Assunto deve ter no máximo 200 caracteres"),
-  message: z
-    .string()
-    .min(1, "Mensagem deve ter pelo menos 1 caracteres")
-    .max(1000, "Mensagem deve ter no máximo 1000 caracteres"),
+  message: z.string().max(1000, "Mensagem deve ter no máximo 1000 caracteres"),
   consent: z
     .boolean()
     .refine(
