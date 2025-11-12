@@ -1,17 +1,22 @@
-
 "use client";
 
-import { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Badge } from '@/components/ui/badge';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Plus, Edit, Trash2, ExternalLink, BookOpen } from 'lucide-react';
-import { CourseItem } from '@/lib/types';
+import { useState, useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Plus, Edit, Trash2, ExternalLink, BookOpen } from "lucide-react";
+import { CourseItem } from "@/lib/types";
 
 export default function CoursesManager() {
   const [courses, setCourses] = useState<CourseItem[]>([]);
@@ -19,12 +24,15 @@ export default function CoursesManager() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingCourse, setEditingCourse] = useState<CourseItem | null>(null);
   const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-    link: '',
-    image: ''
+    name: "",
+    description: "",
+    link: "",
+    image: "",
   });
-  const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
+  const [message, setMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
 
   useEffect(() => {
     fetchCourses();
@@ -32,13 +40,13 @@ export default function CoursesManager() {
 
   const fetchCourses = async () => {
     try {
-      const response = await fetch('/api/admin/courses');
+      const response = await fetch("/api/admin/courses");
       if (response.ok) {
         const data = await response.json();
         setCourses(data);
       }
     } catch (error) {
-      console.error('Erro ao buscar cursos:', error);
+      console.error("Erro ao buscar cursos:", error);
     } finally {
       setIsLoading(false);
     }
@@ -49,65 +57,67 @@ export default function CoursesManager() {
     setMessage(null);
 
     try {
-      const url = editingCourse 
+      const url = editingCourse
         ? `/api/admin/courses/${editingCourse.id}`
-        : '/api/admin/courses';
-      
-      const method = editingCourse ? 'PUT' : 'POST';
+        : "/api/admin/courses";
+
+      const method = editingCourse ? "PUT" : "POST";
 
       const response = await fetch(url, {
         method,
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
 
       if (response.ok) {
         setMessage({
-          type: 'success',
-          text: editingCourse ? 'Curso atualizado com sucesso!' : 'Curso criado com sucesso!'
+          type: "success",
+          text: editingCourse
+            ? "Curso atualizado com sucesso!"
+            : "Curso criado com sucesso!",
         });
         setIsDialogOpen(false);
         setEditingCourse(null);
         resetForm();
         fetchCourses();
       } else {
-        throw new Error('Erro na resposta da API');
+        throw new Error("Erro na resposta da API");
       }
     } catch (error) {
-      console.error('Erro ao salvar curso:', error);
+      console.error("Erro ao salvar curso:", error);
       setMessage({
-        type: 'error',
-        text: 'Erro ao salvar curso. Tente novamente.'
+        type: "error",
+        text: "Erro ao salvar curso. Tente novamente.",
       });
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Tem certeza que deseja excluir este curso?')) {
+    if (!confirm("Tem certeza que deseja excluir este curso?")) {
       return;
     }
 
     try {
       const response = await fetch(`/api/admin/courses/${id}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
 
       if (response.ok) {
         setMessage({
-          type: 'success',
-          text: 'Curso excluído com sucesso!'
+          type: "success",
+          text: "Curso excluído com sucesso!",
         });
         fetchCourses();
       } else {
-        throw new Error('Erro ao excluir curso');
+        throw new Error("Erro ao excluir curso");
       }
     } catch (error) {
-      console.error('Erro ao excluir curso:', error);
+      console.error("Erro ao excluir curso:", error);
       setMessage({
-        type: 'error',
-        text: 'Erro ao excluir curso. Tente novamente.'
+        type: "error",
+        text: "Erro ao excluir curso. Tente novamente.",
       });
     }
   };
@@ -118,17 +128,17 @@ export default function CoursesManager() {
       name: course.name,
       description: course.description,
       link: course.link,
-      image: course.image || ''
+      image: course.image || "",
     });
     setIsDialogOpen(true);
   };
 
   const resetForm = () => {
     setFormData({
-      name: '',
-      description: '',
-      link: '',
-      image: ''
+      name: "",
+      description: "",
+      link: "",
+      image: "",
     });
   };
 
@@ -161,17 +171,20 @@ export default function CoursesManager() {
 
   return (
     <div className="space-y-6">
-      
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-navy mb-2">Gerenciar Cursos</h2>
-          <p className="text-gray-600">Adicione, edite ou remova cursos do carrossel</p>
+          <h2 className="text-2xl font-bold text-navy mb-2">
+            Gerenciar Cursos
+          </h2>
+          <p className="text-gray-600">
+            Adicione, edite ou remova cursos do carrossel
+          </p>
         </div>
-        
+
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button className="bg-navy hover:bg-navy/90">
+            <Button className="bg-navy hover:bg-navy/90 text-white">
               <Plus className="w-4 h-4 mr-2" />
               Adicionar Curso
             </Button>
@@ -179,10 +192,10 @@ export default function CoursesManager() {
           <DialogContent className="max-w-2xl">
             <DialogHeader>
               <DialogTitle>
-                {editingCourse ? 'Editar Curso' : 'Adicionar Curso'}
+                {editingCourse ? "Editar Curso" : "Adicionar Curso"}
               </DialogTitle>
             </DialogHeader>
-            
+
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
@@ -190,7 +203,9 @@ export default function CoursesManager() {
                   <Input
                     id="name"
                     value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
                     required
                     placeholder="Ex: Método CIS"
                   />
@@ -200,41 +215,54 @@ export default function CoursesManager() {
                   <Input
                     id="image"
                     value={formData.image}
-                    onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, image: e.target.value })
+                    }
                     placeholder="https://example.com/image.jpg"
                   />
                 </div>
               </div>
-              
+
               <div>
                 <Label htmlFor="description">Descrição *</Label>
                 <Textarea
                   id="description"
                   value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, description: e.target.value })
+                  }
                   required
                   placeholder="Descrição detalhada do curso..."
                   className="min-h-[100px]"
                 />
               </div>
-              
+
               <div>
                 <Label htmlFor="link">Link do Curso *</Label>
                 <Input
                   id="link"
                   type="url"
                   value={formData.link}
-                  onChange={(e) => setFormData({ ...formData, link: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, link: e.target.value })
+                  }
                   required
                   placeholder="https://febracis.com/curso/..."
                 />
               </div>
 
               <div className="flex gap-3 pt-4">
-                <Button type="submit" className="bg-navy hover:bg-navy/90">
-                  {editingCourse ? 'Atualizar' : 'Criar'} Curso
+                <Button
+                  type="submit"
+                  className="bg-navy hover:bg-navy/90 text-white"
+                >
+                  {editingCourse ? "Atualizar" : "Criar"} Curso
                 </Button>
-                <Button type="button" variant="outline" onClick={handleCloseDialog}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={handleCloseDialog}
+                >
                   Cancelar
                 </Button>
               </div>
@@ -245,7 +273,7 @@ export default function CoursesManager() {
 
       {/* Messages */}
       {message && (
-        <Alert variant={message.type === 'error' ? 'destructive' : 'default'}>
+        <Alert variant={message.type === "error" ? "destructive" : "default"}>
           <AlertDescription>{message.text}</AlertDescription>
         </Alert>
       )}
@@ -282,12 +310,12 @@ export default function CoursesManager() {
                 {course.name}
               </CardTitle>
             </CardHeader>
-            
+
             <CardContent className="pt-0">
               <p className="text-gray-600 text-sm line-clamp-3 mb-4">
                 {course.description}
               </p>
-              
+
               <div className="flex items-center justify-between">
                 <a
                   href={course.link}

@@ -1,36 +1,31 @@
-
 "use client";
 
-import { useState } from 'react';
-import { signOut } from 'next-auth/react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { 
-  BookOpen, 
-  Video, 
-  MessageSquare, 
-  Settings, 
+import { useState } from "react";
+import { signOut } from "next-auth/react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  BookOpen,
+  Video,
+  MessageSquare,
   LogOut,
   BarChart3,
-  Users,
-  Mail
-} from 'lucide-react';
-import CoursesManager from './courses-manager';
-import VideosManager from './videos-manager';
-import ContactMessages from './contact-messages';
-import DashboardStats from './dashboard-stats';
+} from "lucide-react";
+import CoursesManager from "./courses-manager";
+import VideosManager from "./videos-manager";
+import ContactMessages from "./contact-messages";
+import DashboardStats from "./dashboard-stats";
 
 export default function AdminDashboard() {
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [activeTab, setActiveTab] = useState("dashboard");
 
   const handleLogout = () => {
-    signOut({ callbackUrl: '/' });
+    signOut({ callbackUrl: "/" });
   };
 
   return (
-    <div className="min-h-screen bg-beige">
+    <div className="min-h-screen bg-beige" suppressHydrationWarning>
       {/* Header */}
       <header className="bg-white shadow-sm border-b">
         <div className="container-custom">
@@ -41,12 +36,12 @@ export default function AdminDashboard() {
               </h1>
               <p className="text-gray-600">Gerencie conteúdo e mensagens</p>
             </div>
-            
+
             <div className="flex items-center gap-4">
               <Badge variant="secondary" className="bg-teal/10 text-teal">
                 Administrador
               </Badge>
-              <Button 
+              <Button
                 onClick={handleLogout}
                 variant="outline"
                 size="sm"
@@ -62,8 +57,11 @@ export default function AdminDashboard() {
 
       {/* Main Content */}
       <div className="container-custom py-8">
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          
+        <Tabs
+          value={activeTab}
+          onValueChange={setActiveTab}
+          className="space-y-6"
+        >
           {/* Navigation Tabs */}
           <TabsList className="grid w-full grid-cols-4 lg:w-auto lg:grid-cols-none lg:flex">
             <TabsTrigger value="dashboard" className="flex items-center gap-2">

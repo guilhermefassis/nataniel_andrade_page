@@ -1,18 +1,23 @@
-
 "use client";
 
-import { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Plus, Edit, Trash2, ExternalLink, Video } from 'lucide-react';
-import { YouTubeVideo } from '@/lib/types';
-import { getYouTubeId, getYouTubeThumbnail } from '@/lib/utils';
-import Image from 'next/image';
+import { useState, useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Plus, Edit, Trash2, ExternalLink, Video } from "lucide-react";
+import { YouTubeVideo } from "@/lib/types";
+import { getYouTubeId, getYouTubeThumbnail } from "@/lib/utils";
+import Image from "next/image";
 
 export default function VideosManager() {
   const [videos, setVideos] = useState<YouTubeVideo[]>([]);
@@ -20,10 +25,13 @@ export default function VideosManager() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingVideo, setEditingVideo] = useState<YouTubeVideo | null>(null);
   const [formData, setFormData] = useState({
-    title: '',
-    url: ''
+    title: "",
+    url: "",
   });
-  const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
+  const [message, setMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
 
   useEffect(() => {
     fetchVideos();
@@ -31,13 +39,13 @@ export default function VideosManager() {
 
   const fetchVideos = async () => {
     try {
-      const response = await fetch('/api/admin/videos');
+      const response = await fetch("/api/admin/videos");
       if (response.ok) {
         const data = await response.json();
         setVideos(data);
       }
     } catch (error) {
-      console.error('Erro ao buscar vídeos:', error);
+      console.error("Erro ao buscar vídeos:", error);
     } finally {
       setIsLoading(false);
     }
@@ -51,72 +59,74 @@ export default function VideosManager() {
     const videoId = getYouTubeId(formData.url);
     if (!videoId) {
       setMessage({
-        type: 'error',
-        text: 'URL do YouTube inválida. Use um link válido do YouTube.'
+        type: "error",
+        text: "URL do YouTube inválida. Use um link válido do YouTube.",
       });
       return;
     }
 
     try {
-      const url = editingVideo 
+      const url = editingVideo
         ? `/api/admin/videos/${editingVideo.id}`
-        : '/api/admin/videos';
-      
-      const method = editingVideo ? 'PUT' : 'POST';
+        : "/api/admin/videos";
+
+      const method = editingVideo ? "PUT" : "POST";
 
       const response = await fetch(url, {
         method,
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
 
       if (response.ok) {
         setMessage({
-          type: 'success',
-          text: editingVideo ? 'Vídeo atualizado com sucesso!' : 'Vídeo adicionado com sucesso!'
+          type: "success",
+          text: editingVideo
+            ? "Vídeo atualizado com sucesso!"
+            : "Vídeo adicionado com sucesso!",
         });
         setIsDialogOpen(false);
         setEditingVideo(null);
         resetForm();
         fetchVideos();
       } else {
-        throw new Error('Erro na resposta da API');
+        throw new Error("Erro na resposta da API");
       }
     } catch (error) {
-      console.error('Erro ao salvar vídeo:', error);
+      console.error("Erro ao salvar vídeo:", error);
       setMessage({
-        type: 'error',
-        text: 'Erro ao salvar vídeo. Tente novamente.'
+        type: "error",
+        text: "Erro ao salvar vídeo. Tente novamente.",
       });
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Tem certeza que deseja excluir este vídeo?')) {
+    if (!confirm("Tem certeza que deseja excluir este vídeo?")) {
       return;
     }
 
     try {
       const response = await fetch(`/api/admin/videos/${id}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
 
       if (response.ok) {
         setMessage({
-          type: 'success',
-          text: 'Vídeo excluído com sucesso!'
+          type: "success",
+          text: "Vídeo excluído com sucesso!",
         });
         fetchVideos();
       } else {
-        throw new Error('Erro ao excluir vídeo');
+        throw new Error("Erro ao excluir vídeo");
       }
     } catch (error) {
-      console.error('Erro ao excluir vídeo:', error);
+      console.error("Erro ao excluir vídeo:", error);
       setMessage({
-        type: 'error',
-        text: 'Erro ao excluir vídeo. Tente novamente.'
+        type: "error",
+        text: "Erro ao excluir vídeo. Tente novamente.",
       });
     }
   };
@@ -125,15 +135,15 @@ export default function VideosManager() {
     setEditingVideo(video);
     setFormData({
       title: video.title,
-      url: video.url
+      url: video.url,
     });
     setIsDialogOpen(true);
   };
 
   const resetForm = () => {
     setFormData({
-      title: '',
-      url: ''
+      title: "",
+      url: "",
     });
   };
 
@@ -166,17 +176,20 @@ export default function VideosManager() {
 
   return (
     <div className="space-y-6">
-      
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-navy mb-2">Gerenciar Vídeos</h2>
-          <p className="text-gray-600">Adicione, edite ou remova vídeos do YouTube</p>
+          <h2 className="text-2xl font-bold text-navy mb-2">
+            Gerenciar Vídeos
+          </h2>
+          <p className="text-gray-600">
+            Adicione, edite ou remova vídeos do YouTube
+          </p>
         </div>
-        
+
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button className="bg-red-600 hover:bg-red-700">
+            <Button className="bg-red-600 hover:bg-red-700 text-white">
               <Plus className="w-4 h-4 mr-2" />
               Adicionar Vídeo
             </Button>
@@ -184,34 +197,39 @@ export default function VideosManager() {
           <DialogContent className="max-w-2xl">
             <DialogHeader>
               <DialogTitle>
-                {editingVideo ? 'Editar Vídeo' : 'Adicionar Vídeo'}
+                {editingVideo ? "Editar Vídeo" : "Adicionar Vídeo"}
               </DialogTitle>
             </DialogHeader>
-            
+
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <Label htmlFor="title">Título do Vídeo *</Label>
                 <Input
                   id="title"
                   value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, title: e.target.value })
+                  }
                   required
                   placeholder="Ex: Você é um sonhador ou um realizador?"
                 />
               </div>
-              
+
               <div>
                 <Label htmlFor="url">URL do YouTube *</Label>
                 <Input
                   id="url"
                   type="url"
                   value={formData.url}
-                  onChange={(e) => setFormData({ ...formData, url: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, url: e.target.value })
+                  }
                   required
                   placeholder="https://www.youtube.com/watch?v=... ou https://youtu.be/..."
                 />
                 <p className="text-xs text-gray-600 mt-1">
-                  Cole o link completo do YouTube (funciona com videos normais, shorts, etc.)
+                  Cole o link completo do YouTube (funciona com videos normais,
+                  shorts, etc.)
                 </p>
               </div>
 
@@ -231,10 +249,17 @@ export default function VideosManager() {
               )}
 
               <div className="flex gap-3 pt-4">
-                <Button type="submit" className="bg-red-600 hover:bg-red-700">
-                  {editingVideo ? 'Atualizar' : 'Adicionar'} Vídeo
+                <Button
+                  type="submit"
+                  className="bg-red-600 hover:bg-red-700 text-white"
+                >
+                  {editingVideo ? "Atualizar" : "Adicionar"} Vídeo
                 </Button>
-                <Button type="button" variant="outline" onClick={handleCloseDialog}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={handleCloseDialog}
+                >
                   Cancelar
                 </Button>
               </div>
@@ -245,7 +270,7 @@ export default function VideosManager() {
 
       {/* Messages */}
       {message && (
-        <Alert variant={message.type === 'error' ? 'destructive' : 'default'}>
+        <Alert variant={message.type === "error" ? "destructive" : "default"}>
           <AlertDescription>{message.text}</AlertDescription>
         </Alert>
       )}
@@ -284,7 +309,7 @@ export default function VideosManager() {
                   {video.title}
                 </CardTitle>
               </CardHeader>
-              
+
               <CardContent className="pt-0">
                 <div className="relative w-full h-32 bg-black rounded-lg overflow-hidden mb-4">
                   <Image
@@ -295,7 +320,7 @@ export default function VideosManager() {
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
                 </div>
-                
+
                 <div className="flex items-center justify-between">
                   <a
                     href={video.url}
@@ -307,7 +332,7 @@ export default function VideosManager() {
                     <ExternalLink className="w-3 h-3" />
                   </a>
                   <Badge variant="outline" className="text-xs">
-                    {video.url.includes('/shorts/') ? 'Short' : 'Vídeo'}
+                    {video.url.includes("/shorts/") ? "Short" : "Vídeo"}
                   </Badge>
                 </div>
               </CardContent>

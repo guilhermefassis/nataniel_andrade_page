@@ -1,9 +1,8 @@
-
 "use client";
 
-import { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { BookOpen, Video, MessageSquare, TrendingUp } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { BookOpen, Video, MessageSquare, TrendingUp } from "lucide-react";
 
 interface Stats {
   totalCourses: number;
@@ -13,27 +12,24 @@ interface Stats {
 }
 
 export default function DashboardStats() {
-  const [stats, setStats] = useState<Stats>({
-    totalCourses: 0,
-    totalVideos: 0,
-    totalMessages: 0,
-    pendingMessages: 0
-  });
+  const [stats, setStats] = useState<Stats | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
     fetchStats();
   }, []);
 
   const fetchStats = async () => {
     try {
-      const response = await fetch('/api/admin/stats');
+      const response = await fetch("/api/admin/stats");
       if (response.ok) {
         const data = await response.json();
         setStats(data);
       }
     } catch (error) {
-      console.error('Erro ao buscar estatísticas:', error);
+      console.error("Erro ao buscar estatísticas:", error);
     } finally {
       setIsLoading(false);
     }
@@ -41,33 +37,33 @@ export default function DashboardStats() {
 
   const statsCards = [
     {
-      title: 'Total de Cursos',
-      value: stats.totalCourses,
+      title: "Total de Cursos",
+      value: stats?.totalCourses ?? 0,
       icon: BookOpen,
-      color: 'text-blue-600',
-      bgColor: 'bg-blue-50'
+      color: "text-blue-600",
+      bgColor: "bg-blue-50",
     },
     {
-      title: 'Vídeos do YouTube',
-      value: stats.totalVideos,
+      title: "Vídeos do YouTube",
+      value: stats?.totalVideos,
       icon: Video,
-      color: 'text-red-600',
-      bgColor: 'bg-red-50'
+      color: "text-red-600",
+      bgColor: "bg-red-50",
     },
     {
-      title: 'Total de Mensagens',
-      value: stats.totalMessages,
+      title: "Total de Mensagens",
+      value: stats?.totalMessages,
       icon: MessageSquare,
-      color: 'text-green-600',
-      bgColor: 'bg-green-50'
+      color: "text-green-600",
+      bgColor: "bg-green-50",
     },
     {
-      title: 'Mensagens Pendentes',
-      value: stats.pendingMessages,
+      title: "Mensagens Pendentes",
+      value: stats?.pendingMessages,
       icon: TrendingUp,
-      color: 'text-orange-600',
-      bgColor: 'bg-orange-50'
-    }
+      color: "text-orange-600",
+      bgColor: "bg-orange-50",
+    },
   ];
 
   if (isLoading) {
@@ -89,7 +85,6 @@ export default function DashboardStats() {
 
   return (
     <div className="space-y-6">
-      
       <div>
         <h2 className="text-2xl font-bold text-navy mb-2">Dashboard</h2>
         <p className="text-gray-600">Visão geral das estatísticas do site</p>
@@ -99,7 +94,10 @@ export default function DashboardStats() {
         {statsCards.map((stat) => {
           const Icon = stat.icon;
           return (
-            <Card key={stat.title} className="hover:shadow-lg transition-shadow">
+            <Card
+              key={stat.title}
+              className="hover:shadow-lg transition-shadow"
+            >
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
@@ -110,7 +108,9 @@ export default function DashboardStats() {
                       {stat.value}
                     </p>
                   </div>
-                  <div className={`w-12 h-12 ${stat.bgColor} rounded-lg flex items-center justify-center`}>
+                  <div
+                    className={`w-12 h-12 ${stat.bgColor} rounded-lg flex items-center justify-center`}
+                  >
                     <Icon className={`w-6 h-6 ${stat.color}`} />
                   </div>
                 </div>
@@ -121,7 +121,6 @@ export default function DashboardStats() {
       </div>
 
       <div className="grid md:grid-cols-2 gap-6">
-        
         {/* Quick Actions */}
         <Card>
           <CardHeader>
@@ -134,14 +133,18 @@ export default function DashboardStats() {
                 className="block p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors"
               >
                 <div className="font-medium text-navy">Gerenciar Cursos</div>
-                <div className="text-sm text-gray-600">Adicionar ou editar cursos</div>
+                <div className="text-sm text-gray-600">
+                  Adicionar ou editar cursos
+                </div>
               </a>
               <a
                 href="/admin?tab=videos"
                 className="block p-3 bg-red-50 hover:bg-red-100 rounded-lg transition-colors"
               >
                 <div className="font-medium text-navy">Gerenciar Vídeos</div>
-                <div className="text-sm text-gray-600">Adicionar vídeos do YouTube</div>
+                <div className="text-sm text-gray-600">
+                  Adicionar vídeos do YouTube
+                </div>
               </a>
               <a
                 href="/admin?tab=messages"
@@ -149,12 +152,13 @@ export default function DashboardStats() {
               >
                 <div className="font-medium text-navy">Ver Mensagens</div>
                 <div className="text-sm text-gray-600">
-                  {stats.pendingMessages > 0 && (
-                    <span className="text-orange-600 font-medium">
-                      {stats.pendingMessages} pendentes
-                    </span>
-                  )}
-                  {stats.pendingMessages === 0 && 'Todas respondidas'}
+                  {stats?.pendingMessages ||
+                    (0 > 0 && (
+                      <span className="text-orange-600 font-medium">
+                        {stats?.pendingMessages} pendentes
+                      </span>
+                    ))}
+                  {stats?.pendingMessages || (0 === 0 && "Todas respondidas")}
                 </div>
               </a>
             </div>
@@ -183,7 +187,6 @@ export default function DashboardStats() {
             </div>
           </CardContent>
         </Card>
-
       </div>
     </div>
   );
